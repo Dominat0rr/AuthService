@@ -3,6 +3,7 @@ package be.equals.authservice.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -64,6 +65,16 @@ public class JwtUtils {
                 .expiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24)))
                 .signWith(getSigningKey())
                 .compact();
+    }
+
+    public String getUsername(String token) {
+        return extractUsername(token);
+    }
+
+    public Boolean isValidToken(String token) {
+        final String username = extractUsername(token);
+
+        return StringUtils.isNotEmpty(token) && StringUtils.isNotEmpty(username) && !isTokenExpired(token);
     }
 
     public Boolean isValidToken(String token, UserDetails userDetails) {
