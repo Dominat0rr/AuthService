@@ -59,6 +59,10 @@ public class User implements UserDetails, Serializable {
         // JPA
     }
 
+    public String getRealUsername() {
+        return username;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
