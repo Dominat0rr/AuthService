@@ -19,7 +19,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .formLogin(withDefaults())
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
                                 .anyRequest().authenticated()
