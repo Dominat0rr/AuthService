@@ -16,8 +16,8 @@ create table user
         unique (email)
 );
 
-INSERT INTO authentication.user (id, email, firstName, lastName, password, username)
-    VALUES  (100, 'john@email.be', 'John', 'Doe', '$2a$10$kV6M8rvK2pGjPt.JsyaITel.BU2CKXAMWEIf9A/Tve9.UXFmuEeiK', 'john'),
+INSERT INTO user (id, email, firstName, lastName, password, username)
+VALUES      (100, 'john@email.be', 'John', 'Doe', '$2a$10$kV6M8rvK2pGjPt.JsyaITel.BU2CKXAMWEIf9A/Tve9.UXFmuEeiK', 'john'),
             (101, 'jane@email.be', 'Jane', 'Doe', '$2a$10$9zs3K.pnqWYKNCi1PZcQze8Zldk4SvuA0XYnG8FY5PPuC.ZE/SA3q', 'jane');
 
 
