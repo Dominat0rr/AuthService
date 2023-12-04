@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles({"repository-test"})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @EnableJpaRepositories(basePackages = {"be.equals.repository"})
 public abstract class MySQLTestContainer {
     protected static MySQLContainer<?> MYSQL_SERVER_CONTAINER;
