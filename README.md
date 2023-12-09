@@ -1,3 +1,3 @@
 # AuthService
- Simple Authorization Service (Demo)
+ Simple Authentication Service (Demo)
 
