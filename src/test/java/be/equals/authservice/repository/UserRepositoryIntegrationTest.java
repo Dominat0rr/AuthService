@@ -41,7 +41,7 @@ class UserRepositoryIntegrationTest extends MySQLTestContainer {
     }
 
     @Test
-    void whenFindByEmail_withNonExsitingEmail_ThenOptionalEmptyIsReturned() {
+    void whenFindByEmail_withNonExistingEmail_ThenOptionalEmptyIsReturned() {
         Optional<User> user = userRepository.findByEmail(NON_EXISTING_EMAIL);
 
         assertThat(user).isEqualTo(Optional.empty());

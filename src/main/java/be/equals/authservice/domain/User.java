@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table(uniqueConstraints = {
+@Table(name = "user", uniqueConstraints = {
         @UniqueConstraint(name = "UniqueEmail", columnNames = {"email"}),
 })
 @AllArgsConstructor
