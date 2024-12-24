@@ -25,6 +25,8 @@ class UserServiceTest {
 
     private static final Long EXISTING_USER_ID = 100L;
     private static final Long NON_EXISTING_USER_ID = 400L;
+    private static final String EXISTING_EMAIL = "john@email.be";
+    private static final String NON_EXISTING_EMAIL = "test@email.be";
 
     @Test
     void whenExists_withExistingId_thenReturnTrue() {
@@ -42,6 +44,24 @@ class UserServiceTest {
         assertThat(userService.exists(NON_EXISTING_USER_ID)).isFalse();
 
         verify(userRepository, times(1)).existsById(NON_EXISTING_USER_ID);
+    }
+
+    @Test
+    void whenExistsByEmail_withExistingEmail_thenReturnTrue() {
+        when(userRepository.existsByEmail(EXISTING_EMAIL)).thenReturn(true);
+
+        assertThat(userService.existsByEmail(EXISTING_EMAIL)).isTrue();
+
+        verify(userRepository, times(1)).existsByEmail(EXISTING_EMAIL);
+    }
+
+    @Test
+    void whenExistsByEmail_withExistingEmail_thenReturnFalse() {
+        when(userRepository.existsByEmail(NON_EXISTING_EMAIL)).thenReturn(false);
+
+        assertThat(userService.existsByEmail(NON_EXISTING_EMAIL)).isFalse();
+
+        verify(userRepository, times(1)).existsByEmail(NON_EXISTING_EMAIL);
     }
 
     @Test

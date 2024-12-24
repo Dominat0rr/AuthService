@@ -41,6 +41,20 @@ class UserRepositoryIntegrationTest extends MySQLTestContainer {
     }
 
     @Test
+    void whenExistsByEmail_withNonExistingEmail_ThenFalseReturned() {
+        boolean result = userRepository.existsByEmail(NON_EXISTING_EMAIL);
+
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    void whenExistsByEmail_withExistingEmail_thenUserIsReturned() {
+        boolean result = userRepository.existsByEmail(EXISTING_EMAIL);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test
     void whenFindByEmail_withNonExistingEmail_ThenOptionalEmptyIsReturned() {
         Optional<User> user = userRepository.findByEmail(NON_EXISTING_EMAIL);
 
