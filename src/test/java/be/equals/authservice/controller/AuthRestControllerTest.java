@@ -16,7 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Date;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,6 +50,7 @@ public class AuthRestControllerTest {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(createUser()));
         when(passwordEncoder.matches(any(), anyString())).thenReturn(true);
         when(jwtUtils.generateToken(any())).thenReturn(TOKEN);
+        when(jwtUtils.extractExpiration(any())).thenReturn(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5)));
 
         this.mockMvc.perform(post("/auth/token")
                         .contentType(APPLICATION_JSON)
@@ -55,6 +58,12 @@ public class AuthRestControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.access_token").exists())
                 .andExpect(jsonPath("$.access_token").value(TOKEN))
+                .andExpect(jsonPath("$.token_type").exists())
+                .andExpect(jsonPath("$.token_type").value("Bearer"))
+                .andExpect(jsonPath("$.expires_in").exists())
+                .andExpect(jsonPath("$.expires_in").value("299"))
+                .andExpect(jsonPath("$.refresh_token").isEmpty())
+                .andExpect(jsonPath("$.scope").isEmpty())
                 .andExpect(status().isOk());
     }
 
