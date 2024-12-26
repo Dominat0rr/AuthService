@@ -34,7 +34,7 @@ public class AuthRestController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<TokenResponse> getToken(@Valid @RequestBody UserLoginRequest userLoginRequest) {
         final User user = userRepository.findByEmail(userLoginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(userLoginRequest.getEmail()));
