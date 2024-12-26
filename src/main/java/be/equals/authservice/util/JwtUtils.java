@@ -1,5 +1,6 @@
 package be.equals.authservice.util;
 
+import be.equals.authservice.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -56,13 +57,19 @@ public class JwtUtils {
         return createToken(claims, userDetails);
     }
 
+    public String generateToken(User user) {
+        Map<String, Object> claims = new HashMap<>();
+
+        return createToken(claims, user);
+    }
+
     private String createToken(Map<String, Object> claims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .claim("authorities", userDetails.getAuthorities())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24)))
+                .expiration(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5)))
                 .signWith(getSigningKey())
                 .compact();
     }

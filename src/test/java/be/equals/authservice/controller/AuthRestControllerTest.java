@@ -53,8 +53,8 @@ public class AuthRestControllerTest {
                         .contentType(APPLICATION_JSON)
                         .content(createUserLoginRequest()))
                 .andDo(print())
-                .andExpect(jsonPath("$.token").exists())
-                .andExpect(jsonPath("$.token").value(TOKEN))
+                .andExpect(jsonPath("$.access_token").exists())
+                .andExpect(jsonPath("$.access_token").value(TOKEN))
                 .andExpect(status().isOk());
     }
 

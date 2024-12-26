@@ -1,18 +1,25 @@
 package be.equals.authservice.controller;
 
 import be.equals.authservice.controller.request.TokenRequest;
+import be.equals.authservice.controller.request.UserLoginRequest;
 import be.equals.authservice.controller.response.TokenResponse;
 import be.equals.authservice.controller.response.UserResponse;
 import be.equals.authservice.domain.User;
 import be.equals.authservice.exception.UserNotFoundException;
 import be.equals.authservice.repository.UserRepository;
-import be.equals.authservice.controller.request.UserLoginRequest;
 import be.equals.authservice.util.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+
+import static be.equals.authservice.controller.response.TokenType.BEARER;
 
 @RestController
 @RequestMapping("/auth/token")
@@ -33,8 +40,13 @@ public class AuthRestController {
                 .orElseThrow(() -> new UserNotFoundException(userLoginRequest.getEmail()));
 
         if (passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
+            String token = jwtUtils.generateToken(user);
+            Date expiration = jwtUtils.extractExpiration(token);
+
             return new ResponseEntity<>(TokenResponse.builder()
-                    .token(jwtUtils.generateToken(user))
+                    .access_token(token)
+                    .token_type(BEARER.getName())
+                    .expires_in(String.valueOf((expiration.getTime() - System.currentTimeMillis()) / 1000))
                     .build(),
                     HttpStatus.OK);
         }

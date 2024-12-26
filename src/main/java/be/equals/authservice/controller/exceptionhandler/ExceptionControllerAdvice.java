@@ -1,5 +1,6 @@
 package be.equals.authservice.controller.exceptionhandler;
 
+import be.equals.authservice.controller.response.ErrorEnum;
 import be.equals.authservice.controller.response.ErrorResponse;
 import be.equals.authservice.exception.NotAuthenticatedException;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,21 @@ public class ExceptionControllerAdvice {
     public ResponseEntity<ErrorResponse> handleSecurityException(SecurityException ex) {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage()));
+                .body(ErrorResponse.builder()
+                        .error(ErrorEnum.INVALID_CLIENT.getName())
+                        .error_description(ex.getMessage())
+                        .build()
+                );
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(RuntimeException ex) {
         return ResponseEntity
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body(new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), ex.getMessage()));
+                .body(ErrorResponse.builder()
+                        .error(ErrorEnum.INVALID_REQUEST.getName())
+                        .error_description(ex.getMessage())
+                        .build()
+                );
     }
 }

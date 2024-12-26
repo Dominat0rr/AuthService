@@ -1,13 +1,18 @@
 package be.equals.authservice.controller.response;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
+ */
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class ErrorResponse {
-    private int status;
-    private String message;
+    private String error;
+    private String error_description;
+    private String error_uri;
 }

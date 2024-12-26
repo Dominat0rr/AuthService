@@ -25,10 +25,11 @@ class ExceptionControllerAdviceTest {
         assertThat(result.getBody()).isNotNull();
         ErrorResponse body = result.getBody();
         assertThat(body).isNotNull();
-        assertThat(body.getStatus()).isNotNull();
-        assertThat(body.getStatus()).isEqualTo(FORBIDDEN.value());
-        assertThat(body.getMessage()).isNotNull();
-        assertThat(body.getMessage()).isEqualTo("Not authenticated");
+        assertThat(body.getError()).isNotNull();
+        assertThat(body.getError()).isEqualTo("invalid_client");
+        assertThat(body.getError_description()).isNotNull();
+        assertThat(body.getError_description()).isEqualTo("Not authenticated");
+        assertThat(body.getError_uri()).isNull();
     }
 
     @Test
@@ -39,9 +40,10 @@ class ExceptionControllerAdviceTest {
         assertThat(result.getBody()).isNotNull();
         ErrorResponse body = result.getBody();
         assertThat(body).isNotNull();
-        assertThat(body.getStatus()).isNotNull();
-        assertThat(body.getStatus()).isEqualTo(UNPROCESSABLE_ENTITY.value());
-        assertThat(body.getMessage()).isNotNull();
-        assertThat(body.getMessage()).isEqualTo("Error");
+        assertThat(body.getError()).isNotNull();
+        assertThat(body.getError()).isEqualTo("invalid_request");
+        assertThat(body.getError_description()).isNotNull();
+        assertThat(body.getError_description()).isEqualTo("Error");
+        assertThat(body.getError_uri()).isNull();
     }
 }
